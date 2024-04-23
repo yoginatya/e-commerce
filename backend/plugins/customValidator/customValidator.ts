@@ -1,6 +1,4 @@
 import fp from 'fastify-plugin';
-import z from 'zod';
-import type { zodCtx } from '@module/zodCustomValidator/type';
 import validator from '@module/zodCustomValidator';
 
 // declare function validator(

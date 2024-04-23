@@ -18,7 +18,7 @@ const util = {
                 ? never
                 : K;
         };
-        let newObject: Partial<Pick<T, conditionalKey[keyof T]>> = {};
+        const newObject: Partial<Pick<T, conditionalKey[keyof T]>> = {};
         Object.keys(object1).forEach((key) => {
             if (!excludedObject[key]) {
                 type newObjectKey = keyof typeof newObject;
@@ -32,7 +32,7 @@ const util = {
         pickedObject: T,
         pickedProperty: K[]
     ) {
-        let newObject: Partial<Pick<T, K>> = {};
+        const newObject: Partial<Pick<T, K>> = {};
         pickedProperty.forEach((key) => {
             if (!pickedObject[key]) {
                 throw new Error(

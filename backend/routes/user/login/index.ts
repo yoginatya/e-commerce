@@ -10,9 +10,7 @@ import {
 } from 'fastify-type-provider-zod';
 import { FastifyError, FastifyInstance, FastifyPluginAsync } from 'fastify';
 import createZodCustomError from '@module/createZodCustomError';
-import { Prisma } from '@prisma/client';
 
-type option = Parameters<typeof fp>[1];
 const loginSchema = z.object({
     email: z.string().email(),
     password: z.string(),
@@ -86,7 +84,7 @@ async function register(server: FastifyInstance) {
     >((error, _, res) => {
         let errorMessage: string | FastifyError;
         try {
-            errorMessage = JSON.parse(error.message ?? {});
+            errorMessage = JSON.parse(error.message ?? {}) as FastifyError;
         } catch (err) {
             errorMessage = error;
         }

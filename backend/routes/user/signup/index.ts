@@ -1,9 +1,5 @@
 import fp from 'fastify-plugin';
-import type {
-    FastifyError,
-    FastifyInstance,
-    FastifyPluginOptions,
-} from 'fastify';
+import type { FastifyError, FastifyInstance } from 'fastify';
 import { Response, CreateResponseSchema } from '@schema/http';
 import bcrypt from 'bcrypt';
 import z from 'zod';
@@ -80,7 +76,7 @@ async function register(server: FastifyInstance) {
     });
     server.addHook<{
         Body: z.infer<typeof createUserSchema>;
-    }>('preHandler', async (request, reply) => {
+    }>('preHandler', async (request) => {
         const schema = z.object({
             email: z.string().superRefine(async (val, ctx) => {
                 const customValidator = server.zodCustomValidator.string(
@@ -101,7 +97,7 @@ async function register(server: FastifyInstance) {
     >((error, _, res) => {
         let errorMessage: string | FastifyError;
         try {
-            errorMessage = JSON.parse(error.message ?? {});
+            errorMessage = JSON.parse(error.message ?? {}) as FastifyError;
         } catch (err) {
             errorMessage = error;
         }

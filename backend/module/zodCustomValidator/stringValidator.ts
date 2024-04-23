@@ -1,4 +1,4 @@
-import z, { ZodError } from 'zod';
+import z from 'zod';
 import { FastifyInstance } from 'fastify';
 import BaseValidator from './baseValidator';
 import type { Prisma, PrismaClient } from '@prisma/client';
@@ -9,7 +9,7 @@ type PrismaModel<T extends ModelNames> = Exclude<
     Awaited<ReturnType<PrismaClient[Uncapitalize<T>]['findUnique']>>,
     null
 >;
-type zodErrorParam = Parameters<z.ZodAny['refine']>[1];
+// type zodErrorParam = Parameters<z.ZodAny['refine']>[1];
 export default class StringValidator extends BaseValidator {
     value: string;
     #server: FastifyInstance;
@@ -19,7 +19,7 @@ export default class StringValidator extends BaseValidator {
         option: customValidatorOption,
         server: FastifyInstance
     ) {
-        super(ctx, option, server);
+        super(ctx, option);
         this.value = val;
         this.#server = server;
     }
@@ -27,7 +27,7 @@ export default class StringValidator extends BaseValidator {
     unique<T extends Uncapitalize<ModelNames>>(
         table: T,
         field: keyof PrismaModel<Capitalize<T>> & string,
-        error?: zodErrorParam
+        message?: string
     ): typeof this {
         this._callFn.push(async () => {
             const server = this.#server;
@@ -41,7 +41,7 @@ export default class StringValidator extends BaseValidator {
             if (record) {
                 throw new ValidatorError({
                     code: z.ZodIssueCode.custom,
-                    message: `${field} already used`,
+                    message: message ?? `${field} already used`,
                 });
             }
         });

@@ -1,9 +1,7 @@
-import { FastifyInstance } from 'fastify';
-import z, { ZodError, ZodIssue } from 'zod';
+import z, { ZodIssue } from 'zod';
 import type { zodCtx, customValidatorOption } from './type';
 import ValidatorError from './validatorError';
 export default class BaseValidator {
-    #server: FastifyInstance;
     ctx: zodCtx;
     #option: customValidatorOption;
     #issue: ZodIssue[] = [];
@@ -11,13 +9,8 @@ export default class BaseValidator {
         | ((ctx: zodCtx) => void | never)
         | ((ctx: zodCtx) => Promise<void> | never)
     )[] = [];
-    constructor(
-        ctx: zodCtx,
-        option: customValidatorOption,
-        server: FastifyInstance
-    ) {
+    constructor(ctx: zodCtx, option: customValidatorOption) {
         this.ctx = ctx;
-        this.#server = server;
         this.#option = option;
     }
 

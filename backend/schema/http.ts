@@ -1,5 +1,4 @@
-import { error } from 'console';
-import z, { ZodType } from 'zod';
+import z from 'zod';
 
 const baseResponseSchema = () => {
     return z.object({

@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc && (concurrently \"tsc -w\" \"tsc-alias -w\" \"fastify start -l info  --watch ./dist/entryPlugin.js \" )",
     "start": "nodemon --inspect  --enable-source-maps ./dist/main.js",
-    "prisma:dev": "prisma generate & prisma db push"
+    "prisma:dev": "prisma generate & prisma db push",
+    "lint": "eslint ."
   },
   "keywords": [],
   "author": "",
@@ -26,15 +27,25 @@
     "fastify-print-routes": "^3.1.1",
     "fastify-type-provider-zod": "^1.1.9",
     "tsc-alias": "^1.8.8",
-    "typescript": "^5.4.5",
     "zod": "^3.22.4"
   },
   "devDependencies": {
+    "@eslint/eslintrc": "^3.0.2",
+    "@eslint/js": "^9.1.1",
+    "@typescript-eslint/eslint-plugin": "^6.21.0",
+    "@typescript-eslint/parser": "^6.21.0",
     "concurrently": "^8.2.2",
-    "eslint": "^9.0.0",
+    "eslint": "^8.57.0",
+    "eslint-config-standard-with-typescript": "^43.0.1",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-n": "^16.6.2",
+    "eslint-plugin-promise": "^6.1.1",
     "fastify-cli": "^6.1.1",
+    "globals": "^15.0.0",
     "nodemon": "^3.1.0",
     "prisma": "^5.12.1",
-    "tsconfig-paths": "^4.2.0"
+    "tsconfig-paths": "^4.2.0",
+    "typescript": "^5.4.5",
+    "typescript-eslint": "^7.7.1"
   }
 }

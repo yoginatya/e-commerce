@@ -1,8 +1,6 @@
 import 'dotenv/config';
-import autoload from '@fastify/autoload';
 import fastify from 'fastify';
 import entryPlugin from './entryPlugin';
-import path from 'path';
 
 const fastifyPrintRoutes = import('fastify-print-routes');
 const server = fastify({
