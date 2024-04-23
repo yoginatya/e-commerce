@@ -1,0 +1,35 @@
+name: test-and-format
+on: 
+    pull_request: 
+        types: [opened]
+    push: 
+jobs: 
+    frontend: 
+        runs-on: ubuntu-latest
+        if: github.ref == 'refs/heads/frontend'
+        defaults: 
+            run:
+                working-directory: './frontend'
+        steps: 
+            - uses: actions/checkout@v4
+            - uses: actions/setup-node@v4
+              with: 
+                node-version: "20" 
+            - run: npm ci
+            - run: npm run lint
+    backend: 
+        runs-on: ubuntu-latest
+        if: github.ref == 'refs/heads/backend'
+        defaults: 
+            run:
+                working-directory: './backend'
+        steps: 
+            - uses: actions/checkout@v4
+            - uses: actions/setup-node@v4
+              with: 
+                node-version: "20" 
+            - run: npm ci
+            - run: npm run lint
+            - run: npm run test
+            
+        
