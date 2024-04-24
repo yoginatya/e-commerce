@@ -1,6 +1,6 @@
 import fp from 'fastify-plugin';
 import { Response, CreateResponseSchema } from '@schema/http';
-import z from 'zod';
+import z, { ZodIssue } from 'zod';
 import bcrypt from 'bcrypt';
 import type { User } from '@prisma/client';
 import {
@@ -79,12 +79,12 @@ async function register(server: FastifyInstance) {
     route.setErrorHandler<
         FastifyError,
         {
-            Reply: Response<{ error: string | FastifyError }>;
+            Reply: Response<{ error: ZodIssue | FastifyError }>;
         }
     >((error, _, res) => {
-        let errorMessage: string | FastifyError;
+        let errorMessage: ZodIssue | FastifyError;
         try {
-            errorMessage = JSON.parse(error.message ?? {}) as FastifyError;
+            errorMessage = JSON.parse(error.message ?? {}) as ZodIssue;
         } catch (err) {
             errorMessage = error;
         }

@@ -2,7 +2,7 @@ import fp from 'fastify-plugin';
 import type { FastifyError, FastifyInstance } from 'fastify';
 import { Response, CreateResponseSchema } from '@schema/http';
 import bcrypt from 'bcrypt';
-import z from 'zod';
+import z, { ZodIssue } from 'zod';
 import {
     serializerCompiler,
     validatorCompiler,
@@ -93,11 +93,11 @@ async function register(server: FastifyInstance) {
     });
     server.setErrorHandler<
         FastifyError,
-        { Reply: Response<{ error: string | FastifyError }> }
+        { Reply: Response<{ error: ZodIssue | FastifyError }> }
     >((error, _, res) => {
-        let errorMessage: string | FastifyError;
+        let errorMessage: ZodIssue | FastifyError;
         try {
-            errorMessage = JSON.parse(error.message ?? {}) as FastifyError;
+            errorMessage = JSON.parse(error.message ?? {}) as ZodIssue;
         } catch (err) {
             errorMessage = error;
         }
