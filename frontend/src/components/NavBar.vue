@@ -7,7 +7,7 @@ export default {
     window.removeEventListener("scroll", this.handleScroll);
   },
   methods: {
-    handleScroll(event) {
+    handleScroll() {
       const nav = document.querySelector(".navbar");  
 
       if (nav.clientHeight < window.scrollY) {

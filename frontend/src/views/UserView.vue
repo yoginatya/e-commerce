@@ -60,12 +60,17 @@ export default {
     </div>
   </section>
 
-  <section class="py-1">
+  <section class="py-1 product-bg">
     <div class="product-head">
       <div class="text-head">Make Your Own Style</div>
       <h3>Balinesse</h3>
     </div>
-    <Slider />
+    <div class="product">
+      <div class="product-title text-center py-5">
+        <h3><strong>Discover</strong> <br />Our Most Popular Product</h3>
+      </div>
+      <Slider />
+    </div>
   </section>
 </template>
 <style scoped>
@@ -95,8 +100,8 @@ export default {
   padding-block: 20px;
   padding-left: 20px;
   --color-text: #ffffff;
-  --color-background: #DC5F00;
-  --color-outline: #CF0A0A;
+  --color-background: #dc5f00;
+  --color-outline: #cf0a0a;
   --color-shadow: #00000080;
 }
 .btn-content {
@@ -105,7 +110,7 @@ export default {
   text-decoration: none;
   font-family: 'Poppins', sans-serif;
   font-weight: 600;
-  font-size:  30px;
+  font-size: 30px;
   color: var(--color-text);
   background: var(--color-background);
   transition: 1s;
@@ -168,17 +173,41 @@ export default {
   padding: 60px 0px;
   transition: all 500ms;
   background-attachment: fixed;
-  margin-bottom: 30px;
 }
 .text-head {
   font-size: 2rem;
-  font-family: "poppins", sans-serif;
+  font-family: 'poppins', sans-serif;
   font-weight: 600;
 }
 .product-head h3 {
-  font-family: "courgette", sans-serif;
+  font-family: 'courgette', sans-serif;
   font-size: 2rem;
-  color: #CF0A0A;
+  color: #cf0a0a;
+}
+.product-title {
+  font-family: 'poppins', sans-serif;
+}
+.product-title::before {
+  position: absolute;
+  content: '';
+  background-color: black;
+  width: 15%;
+  border-radius: 8px;
+  height: 4px;
+  left: 50%;
+  top: 1130px;
+  transform: translate(-50%, -100%);
+}
+.product-title h3 {
+  font-weight: 600;
+}
+.product-title strong {
+  font-family: 'courgette', sans-serif;
+  font-size: 2rem;
+  color: #dc5f00;
+}
+.product-bg {
+  background: #fcf5ed;
 }
 /* SVG animations */
 @keyframes color_anim {
