@@ -18,7 +18,8 @@ const loginSchema = z.object({
 const responseLoginSchema = loginSchema.omit({ password: true }).merge(
     z.object({
         name: z.string(),
-        token: z.string(),
+        accessToken: z.string(),
+        refreshToken: z.string(),
     })
 );
 
@@ -60,7 +61,15 @@ async function register(server: FastifyInstance) {
                 },
             },
         },
-        (req, res) => {
+        async (req, res) => {
+            const token = await res.createToken({
+                id: user.id,
+                name: user.name,
+            });
+            res.setCookie('refreshToken', token.refreshToken, {
+                httpOnly: true,
+                signed: true,
+            });
             res.status(200).send({
                 message: 'Login success',
                 error: null,
@@ -69,9 +78,7 @@ async function register(server: FastifyInstance) {
                     ...req.body,
                     email: user.email,
                     name: user.name,
-                    token: server.jwt.sign({
-                        name: user.name,
-                    }),
+                    ...token,
                 },
             });
         }
@@ -84,7 +91,7 @@ async function register(server: FastifyInstance) {
     >((error, _, res) => {
         let errorMessage: ZodIssue | FastifyError;
         try {
-            errorMessage = JSON.parse(error.message ?? {}) as ZodIssue;
+            errorMessage = JSON.parse(error.message) as ZodIssue;
         } catch (err) {
             errorMessage = error;
         }

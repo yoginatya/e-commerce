@@ -26,8 +26,9 @@ async function register(server: FastifyInstance) {
         })
         .merge(
             z.object({
-                token: z.string(),
                 id: z.number(),
+                accessToken: z.string(),
+                refreshToken: z.string(),
             })
         );
 
@@ -60,6 +61,16 @@ async function register(server: FastifyInstance) {
                     ),
                 },
             });
+
+            const token = await res.createToken({
+                id: result.id,
+                name: result.name,
+            });
+
+            res.setCookie('refreshToken', token.refreshToken, {
+                signed: true,
+                httpOnly: true,
+            });
             res.code(200).send({
                 success: true,
                 data: {
@@ -67,7 +78,7 @@ async function register(server: FastifyInstance) {
                         password: true,
                     }),
                     id: result.id,
-                    token: server.jwt.sign(req.body),
+                    ...token,
                 },
                 error: null,
                 message: 'success creating user',
@@ -97,10 +108,11 @@ async function register(server: FastifyInstance) {
     >((error, _, res) => {
         let errorMessage: ZodIssue | FastifyError;
         try {
-            errorMessage = JSON.parse(error.message ?? {}) as ZodIssue;
+            errorMessage = JSON.parse(error.message) as ZodIssue;
         } catch (err) {
             errorMessage = error;
         }
+        console.log(error);
         res.status(400).send({
             data: null,
             error: errorMessage,
