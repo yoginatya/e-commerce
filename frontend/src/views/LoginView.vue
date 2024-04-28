@@ -3,8 +3,8 @@
         <div class="login p-5">
             <h5 class="text-center py-3">LOGIN</h5>
             <form action="" class="form">
-                <label for="username">*Your Username</label><br />
-                <input type="text" name="username" placeholder="Username" class="sub-form py-1 px-3"><br />
+                <label for="email">*Your Email</label><br />
+                <input type="text" name="email" placeholder="email" class="sub-form py-1 px-3"><br />
                 <label for="password">*Your Password</label><br />
                 <input type="text" name="password" placeholder="Password" class="sub-form py-1 px-3">
             </form>
