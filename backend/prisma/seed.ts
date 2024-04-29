@@ -74,10 +74,10 @@ async function productInformation() {
             productId: product.id,
             name: faker.commerce.productName(),
             price: parseInt(faker.commerce.price({ min: 5000, max: 120000 })),
+            description: faker.lorem.lines(5),
         };
     });
-
-    prisma.productInformation.createMany({
+    await prisma.productInformation.createMany({
         data: product,
     });
 }

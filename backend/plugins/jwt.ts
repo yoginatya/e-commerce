@@ -1,5 +1,5 @@
 import fastifyJwt, { FastifyJWTOptions } from '@fastify/jwt';
-import { FastifyInstance, FastifyReply } from 'fastify';
+import { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify';
 
 import fp from 'fastify-plugin';
 
@@ -9,6 +9,9 @@ type userData = {
 };
 
 declare module 'fastify' {
+    interface FastifyInstance {
+        authenticate: (req: FastifyRequest) => Promise<void>;
+    }
     interface FastifyReply {
         refreshJwtSign: FastifyReply['jwtSign'];
         createToken: (data: userData) => Promise<{
@@ -16,7 +19,13 @@ declare module 'fastify' {
             refreshToken: string;
         }>;
     }
+    interface FastifyRequest {
+        // Custom namespace
+        refreshJwtVerify: FastifyRequest['jwtVerify'];
+        refreshJwtDecode: FastifyRequest['jwtDecode'];
+    }
 }
+
 export default fp(async (server: FastifyInstance) => {
     server.register(fastifyJwt, {
         secret: 'THIS ACCESS TOKEN NEED TO CHANGED LATER',
@@ -25,6 +34,10 @@ export default fp(async (server: FastifyInstance) => {
     server.register(fastifyJwt, {
         secret: 'THIS REFRESH TOKEN NEED TO CHANGED LATER',
         namespace: 'refresh',
+        cookie: {
+            signed: true,
+            cookieName: 'refresh',
+        },
     } as FastifyJWTOptions);
 
     server.decorateReply('createToken', async function (user: userData) {
@@ -45,5 +58,10 @@ export default fp(async (server: FastifyInstance) => {
             accessToken: access,
             refreshToken: refresh,
         };
+    });
+
+    server.decorate('authenticate', async function (req: FastifyRequest) {
+        const test = await req.jwtVerify();
+        console.log(test);
     });
 });

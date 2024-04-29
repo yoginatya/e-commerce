@@ -14,6 +14,8 @@ async function register(server: FastifyInstance) {
         count: z.number().max(20),
         lastId: z.number().optional(),
     });
+
+    route.addHook('onRequest', route.authenticate);
     route.addHook<{ Querystring: z.infer<typeof queryStringSchema> }>(
         'preValidation',
         (req, _, done) => {
@@ -39,12 +41,20 @@ async function register(server: FastifyInstance) {
                 select: {
                     productCategory: true,
                     id: true,
+                    productInformation: {
+                        select: {
+                            price: true,
+                            name: true,
+                            description: true,
+                        },
+                    },
                 },
                 where: {
                     id: {
                         gt: req.query.lastId ?? -1,
                     },
                 },
+
                 take: req.query.count,
             });
             const review = server.util.transformArrayObject(
