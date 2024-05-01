@@ -38,7 +38,8 @@ export const CreateResponseSchema = <T extends z.ZodTypeAny>(data: T) => {
 
 export interface ResponseError<S> {
     success: false;
-    error: S;
+    error?: S;
+    code: string;
     message: string;
     data: null;
 }

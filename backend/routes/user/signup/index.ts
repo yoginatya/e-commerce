@@ -83,6 +83,8 @@ async function register(server: FastifyInstance) {
                 error: null,
                 message: 'success creating user',
             });
+
+            return res;
         },
     });
     server.addHook<{
@@ -116,11 +118,12 @@ async function register(server: FastifyInstance) {
         res.status(400).send({
             data: null,
             error: errorMessage,
+            code: 'ERROR_VALIDATION',
             message: 'Validation error',
             success: false,
         });
     });
 }
 export default fp(async (server: FastifyInstance) => {
-    await server.register(register);
+    server.register(register);
 });

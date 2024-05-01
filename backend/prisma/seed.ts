@@ -72,6 +72,7 @@ async function productInformation() {
     ).map((product) => {
         return {
             productId: product.id,
+            stock: getRandomInt(10, 100),
             name: faker.commerce.productName(),
             price: parseInt(faker.commerce.price({ min: 5000, max: 120000 })),
             description: faker.lorem.lines(5),

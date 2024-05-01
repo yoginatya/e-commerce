@@ -17,6 +17,7 @@ model Token{
     id Int @id @default(autoincrement())
     user User @relation(fields: [userId],references: [id])
     userId Int 
+    jti String @db.VarChar(255) 
     token String @db.VarChar(255) @unique
 }
 model User {
@@ -58,6 +59,7 @@ model ProductInformation {
     description String @db.Text
     name String @db.VarChar(100) 
     price Float
+    stock Int
 
 }
 

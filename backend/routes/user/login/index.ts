@@ -81,6 +81,8 @@ async function register(server: FastifyInstance) {
                     ...token,
                 },
             });
+
+            return res;
         }
     );
     route.setErrorHandler<
@@ -98,6 +100,7 @@ async function register(server: FastifyInstance) {
         res.status(400).send({
             data: null,
             error: errorMessage,
+            code: 'ERROR_VALIDATION',
             message: 'Validation error',
             success: false,
         });
