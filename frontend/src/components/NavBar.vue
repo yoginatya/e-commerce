@@ -1,7 +1,13 @@
 <script>
 export default {
+  data(){
+    return{
+      paddingBottom: 0 
+    }
+  },
   mounted() {
     window.addEventListener("scroll", this.handleScroll);
+    this.handleResize();
   },
   unmounted() {
     window.removeEventListener("scroll", this.handleScroll);
@@ -9,13 +15,21 @@ export default {
   methods: {
     handleScroll() {
       const nav = document.querySelector(".navbar");  
-
       if (nav.clientHeight < window.scrollY) {
         nav.classList.add("nav-move");
         return;
       }
       nav.classList.remove("nav-move");
     },
+    handleResize(){
+      const nav = document.querySelector(".navbar");
+      // const app = document.querySelector('#app');
+      console.log(document.body.paddingBottom);  
+      if(this.$route.meta.navPad){
+
+         document.body.style.paddingTop = `${nav.clientHeight}px`; 
+     }
+    }
   },
 };
 </script>
@@ -42,13 +56,7 @@ export default {
             <a class="nav-link active" aria-current="page" href="#">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">AllProducts</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Ladies</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Gentleman</a>
+            <a class="nav-link" href="#">Products</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">About</a>
@@ -142,5 +150,8 @@ export default {
 
 .nav-move .nav-link {
   color: black;
+}
+:global(body){
+  padding-bottom: var(--padding-bottom);
 }
 </style>
