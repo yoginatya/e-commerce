@@ -42,10 +42,10 @@ export default {
     <div class="container py-5">
       <div class="container product">
         <div class="d-flex justify-content-center">
-          <img src="../assets/img/products/udeng/udeng1.jpeg" class="mx-5" alt="" />
+          <img src="../assets/img/products/udeng/udeng1.jpeg" class="pro-img mx-5 shadow" alt="" />
           <div class="d-flex align-items-center justify-content-evenly title py-3">
             <div class="name">
-              <h2>Udeng Putih Sutra</h2>
+              <h1>Udeng Putih Sutra</h1>
               <div class="star d-flex my-4">
                 <i class="bi bi-star-fill"></i>
                 <i class="bi bi-star-fill"></i>
@@ -57,14 +57,14 @@ export default {
                 <span>Rp. 150.000</span>
               </div>
             </div>
-            <h3>Stock : 30</h3>
+            <h4>Stock : 30</h4>
           </div>
         </div>
         <div class="deskripsi py-4">
           <h3>deskripsi</h3>
           <div class="des-body">
             <h5>
-              "Udeng Batik Bali dengan Motif Bunga Eksotis. Udeng ini dibuat dengan teliti
+              Udeng Batik Bali dengan Motif Bunga Eksotis. Udeng ini dibuat dengan teliti
               menggunakan kain katun berkualitas tinggi
             </h5>
             .
@@ -80,12 +80,25 @@ export default {
             <div type="button" class="btn btn-outline-warning px-3">Masukan keranjang</div>
           </div>
         </div>
-        <div class="review py-5">
+        <div class="review my-5">
           <h3>Review</h3>
-          <div class="user">
-            <div class="profile d-flex">
+          <div class="user border border-black border-3 p-3">
+            <div class="profile d-flex align-items-center">
               <img src="..\assets\img\mengesa.jpg" alt="">
-              p
+              <div class="username mx-4">
+                <h4>Mang Esa</h4>
+                <div class="star d-flex">
+                <i class="bi bi-star-fill"></i>
+                <i class="bi bi-star-fill"></i>
+                <i class="bi bi-star-fill"></i>
+                <i class="bi bi-star-fill"></i>
+                <i class="bi bi-star-fill"></i>
+              </div>
+              </div>
+            </div>
+            <div class="comments my-2">
+              <h5>Comments</h5>
+              <p>makin lama produk bali semakin hitam</p>
             </div>
           </div>
         </div>
@@ -103,12 +116,12 @@ export default {
   width: 80%;
 }
 
-.product img {
+.pro-img {
   border-radius: 20px;
   width: 400px;
-  box-shadow: #000000;
 }
-.title h2 {
+
+.title h1 {
   color: #000000;
   font-weight: 700;
 }
@@ -116,7 +129,7 @@ export default {
 .star i {
   color: #ffd600;
   font-size: 1.4rem;
-  margin: 0 5px;
+  margin: 0 2px;
 }
 
 .price {
@@ -143,5 +156,14 @@ h3 {
 
 .item-counter button:hover{
   background-color: #FFC55A;
+}
+
+.user{
+  border-radius: 20px;
+}
+
+.profile img{
+  width: 90px;
+  border-radius: 50%;
 }
 </style>

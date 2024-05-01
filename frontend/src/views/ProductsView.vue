@@ -40,14 +40,12 @@ export default {
 <template>
   <navigation />
   <section class="hero" :style="{ '--nav-height': `${navHeight}px` }">
-    <div class="container">
       <section class="py-1">
         <div class="product-head">
           <div class="text-head">Udeng</div>
         </div>
         <Slider />
       </section>
-    </div>
   </section>
   <section class="products px-5">
     <div class="filter px-5 pt-4">
@@ -77,7 +75,7 @@ export default {
           </div>
         </div>
       </div> -->
-      <div class="product col-3" >
+      <div class="product shadow p-2 col-3" >
         <img src="../assets/img/products/udeng/udeng1.jpeg" class="card-img-top" alt="..." />
         <div class="product-text text-center">
           <h4 class="my-3">Udeng Putih Sutra</h4>
@@ -93,7 +91,7 @@ export default {
           </div>
         </div>
       </div>
-      <div class="product col-3" >
+      <div class="product shadow p-2 col-3" >
         <img src="../assets/img/products/udeng/udeng2.jpg" class="card-img-top" alt="..." />
         <div class="product-text text-center">
           <h4 class="my-3">Udeng Putih Sutra</h4>
@@ -109,7 +107,7 @@ export default {
           </div>
         </div>
       </div>
-      <div class="product col-3" >
+      <div class="product shadow p-2 col-3" >
         <img src="../assets/img/products/udeng/udeng3.jpeg" class="card-img-top" alt="..." />
         <div class="product-text text-center">
           <h4 class="my-3">Udeng Putih Sutra</h4>
@@ -125,7 +123,7 @@ export default {
           </div>
         </div>
       </div>
-      <div class="product col-3" >
+      <div class="product shadow p-2 col-3" >
         <img src="../assets/img/products/udeng/udeng4.jpeg" class="card-img-top" alt="..." />
         <div class="product-text text-center">
           <h4 class="my-3">Udeng Putih Sutra</h4>
@@ -141,7 +139,7 @@ export default {
           </div>
         </div>
       </div>
-      <div class="product col-3" >
+      <div class="product shadow p-2 col-3" >
         <img src="../assets/img/products/udeng/udeng5.jpg" class="card-img-top" alt="..." />
         <div class="product-text text-center">
           <h4 class="my-3">Udeng Putih Sutra</h4>
@@ -157,7 +155,7 @@ export default {
           </div>
         </div>
       </div>
-      <div class="product col-3" >
+      <div class="product shadow p-2 col-3" >
         <img src="../assets/img/products/udeng/udeng7.jpeg" class="card-img-top" alt="..." />
         <div class="product-text text-center">
           <h4 class="my-3">Udeng Putih Sutra</h4>
@@ -173,7 +171,7 @@ export default {
           </div>
         </div>
       </div>
-      <div class="product col-3" >
+      <div class="product shadow p-2 col-3" >
         <img src="../assets/img/products/udeng/udeng3.jpeg" class="card-img-top" alt="..." />
         <div class="product-text text-center">
           <h4 class="my-3">Udeng Putih Sutra</h4>
@@ -189,7 +187,7 @@ export default {
           </div>
         </div>
       </div>
-      <div class="product col-3" >
+      <div class="product shadow p-2 col-3" >
         <img src="../assets/img/products/udeng/udeng1.jpeg" class="card-img-top" alt="..." />
         <div class="product-text text-center">
           <h4 class="my-3">Udeng Putih Sutra</h4>
@@ -215,6 +213,7 @@ export default {
     url(@/assets/img/products/banner.jpg);
   /* padding-top: calc(var(--nav-height) + 10px); */
 }
+
 .product-head {
   color: white;
   display: flex;
@@ -228,6 +227,7 @@ export default {
   background-attachment: fixed;
   margin-bottom: 30px;
 }
+
 .text-head {
   font-size: 2rem;
   font-family: 'poppins', sans-serif;
@@ -243,7 +243,8 @@ export default {
 }
 
 .product{
-  margin-bottom: 20px;
+  margin: 0.5rem 0;
+  border-radius: 20px;
 }
 
 .product img{
@@ -286,7 +287,7 @@ export default {
   }
 
   .product{
-    width: 80%;
+    width: 100%;
   }
 }
 </style>
