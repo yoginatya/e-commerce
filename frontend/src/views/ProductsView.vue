@@ -43,8 +43,7 @@ export default {
       <section class="py-1">
         <div class="product-head">
           <div class="text-head">Udeng</div>
-        </div>
-        <Slider />
+        </div>  
       </section>
   </section>
   <section class="products px-5">
@@ -57,7 +56,7 @@ export default {
         <option value="4">Sandal</option>
       </select>
     </div>
-    <div class="py-5 row">
+    <div class="py-5 row justify-content-around ">
       
       <!-- <div class="product col-3" v-for="product in wrap(products)" :key="product.id">
         <img :src="`@/assets/img/products/udeng/${ product.img }`" class="card-img-top" alt="..." />
@@ -75,7 +74,7 @@ export default {
           </div>
         </div>
       </div> -->
-      <div class="product shadow p-2 col-3" >
+      <div class="product shadow p-3 col-3" >
         <img src="../assets/img/products/udeng/udeng1.jpeg" class="card-img-top" alt="..." />
         <div class="product-text text-center">
           <h4 class="my-3">Udeng Putih Sutra</h4>
@@ -91,7 +90,7 @@ export default {
           </div>
         </div>
       </div>
-      <div class="product shadow p-2 col-3" >
+      <div class="product shadow p-3 col-3" >
         <img src="../assets/img/products/udeng/udeng2.jpg" class="card-img-top" alt="..." />
         <div class="product-text text-center">
           <h4 class="my-3">Udeng Putih Sutra</h4>
@@ -107,7 +106,7 @@ export default {
           </div>
         </div>
       </div>
-      <div class="product shadow p-2 col-3" >
+      <div class="product shadow p-3 col-3" >
         <img src="../assets/img/products/udeng/udeng3.jpeg" class="card-img-top" alt="..." />
         <div class="product-text text-center">
           <h4 class="my-3">Udeng Putih Sutra</h4>
@@ -123,7 +122,7 @@ export default {
           </div>
         </div>
       </div>
-      <div class="product shadow p-2 col-3" >
+      <div class="product shadow p-3 col-3" >
         <img src="../assets/img/products/udeng/udeng4.jpeg" class="card-img-top" alt="..." />
         <div class="product-text text-center">
           <h4 class="my-3">Udeng Putih Sutra</h4>
@@ -139,7 +138,7 @@ export default {
           </div>
         </div>
       </div>
-      <div class="product shadow p-2 col-3" >
+      <div class="product shadow p-3 col-3" >
         <img src="../assets/img/products/udeng/udeng5.jpg" class="card-img-top" alt="..." />
         <div class="product-text text-center">
           <h4 class="my-3">Udeng Putih Sutra</h4>
@@ -155,7 +154,7 @@ export default {
           </div>
         </div>
       </div>
-      <div class="product shadow p-2 col-3" >
+      <div class="product shadow p-3 col-3" >
         <img src="../assets/img/products/udeng/udeng7.jpeg" class="card-img-top" alt="..." />
         <div class="product-text text-center">
           <h4 class="my-3">Udeng Putih Sutra</h4>
@@ -171,7 +170,7 @@ export default {
           </div>
         </div>
       </div>
-      <div class="product shadow p-2 col-3" >
+      <div class="product shadow p-3 col-3" >
         <img src="../assets/img/products/udeng/udeng3.jpeg" class="card-img-top" alt="..." />
         <div class="product-text text-center">
           <h4 class="my-3">Udeng Putih Sutra</h4>
@@ -187,7 +186,7 @@ export default {
           </div>
         </div>
       </div>
-      <div class="product shadow p-2 col-3" >
+      <div class="product shadow p-3 col-3" >
         <img src="../assets/img/products/udeng/udeng1.jpeg" class="card-img-top" alt="..." />
         <div class="product-text text-center">
           <h4 class="my-3">Udeng Putih Sutra</h4>
@@ -244,13 +243,12 @@ export default {
 
 .product{
   margin: 0.5rem 0;
-  border-radius: 20px;
+  border-radius: 15px;
 }
 
 .product img{
-  border-radius: 15px;
-  height: 350px;
-  object-fit: fill;
+  border-radius: 35px;
+  object-fit: cover;
 }
 
 .product-text h4{

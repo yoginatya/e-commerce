@@ -56,13 +56,7 @@ export default {
             <a class="nav-link active" aria-current="page" href="#">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">AllProducts</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Ladies</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Gentleman</a>
+            <a class="nav-link" href="#">Products</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">About</a>

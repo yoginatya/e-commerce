@@ -67,7 +67,6 @@ export default {
               Udeng Batik Bali dengan Motif Bunga Eksotis. Udeng ini dibuat dengan teliti
               menggunakan kain katun berkualitas tinggi
             </h5>
-            .
           </div>
         </div>
         <div class="add d-flex justify-content-between">
