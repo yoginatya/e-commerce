@@ -98,6 +98,8 @@ async function register(server: FastifyInstance) {
                 `${req.body.category.value} not found`
             );
         }
+
+        return;
     });
     route.post<{
         Body: z.infer<typeof body>;
@@ -134,6 +136,7 @@ async function register(server: FastifyInstance) {
                         },
                     },
                     productCategory: body.category.value,
+                    available: true,
                 },
             });
             res.status(204).send();

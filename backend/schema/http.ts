@@ -37,11 +37,13 @@ export const CreateResponseSchema = <T extends z.ZodTypeAny>(data: T) => {
 // };
 
 export interface ResponseError<S> {
-    success: false;
-    error?: S;
-    code: string;
-    message: string;
-    data: null;
+    '4xx': {
+        success: false;
+        error?: S;
+        code: string;
+        message: string;
+        data: null;
+    };
 }
 
 export interface Response<
@@ -54,5 +56,5 @@ export interface Response<
         data: S['data'];
     };
     204: never;
-    '4xx': ResponseError<S['error']>;
+    '4xx': ResponseError<S['error']>['4xx'];
 }

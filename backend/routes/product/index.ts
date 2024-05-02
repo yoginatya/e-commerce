@@ -81,26 +81,30 @@ async function register(server: FastifyInstance) {
             },
         },
         async (req, res) => {
-            const products = await server.prisma.product.findMany({
-                select: {
-                    productCategory: true,
-                    id: true,
-                    productInformation: {
-                        select: {
-                            price: true,
-                            name: true,
-                            description: true,
+            const products =
+                (await server.prisma.product.findMany({
+                    select: {
+                        productCategory: true,
+                        id: true,
+                        productInformation: {
+                            select: {
+                                price: true,
+                                name: true,
+                                description: true,
+                            },
                         },
                     },
-                },
-                where: {
-                    id: {
-                        gt: req.query.lastId ?? -1,
+                    where: {
+                        id: {
+                            gt: req.query.lastId ?? -1,
+                        },
+                        productCategory: {
+                            not: null,
+                        },
                     },
-                },
 
-                take: req.query.count,
-            });
+                    take: req.query.count,
+                })) ?? [];
             const review = server.util.transformArrayObject(
                 await server.prisma.review.groupBy({
                     by: ['productId'],
@@ -111,6 +115,11 @@ async function register(server: FastifyInstance) {
                         productId: {
                             in: products.map((product) => product.id),
                         },
+                        product: {
+                            productCategory: {
+                                not: null,
+                            },
+                        },
                     },
                 }),
                 'productId'
@@ -118,7 +127,12 @@ async function register(server: FastifyInstance) {
             type UnwrapArray<A> = A extends unknown[]
                 ? UnwrapArray<A[number]>
                 : A;
-            type Result = UnwrapArray<typeof products> & {
+
+            type NoUndefinedField<T> = {
+                [P in keyof T]-?: Exclude<T[P], null | undefined>;
+            };
+
+            type Result = NoUndefinedField<UnwrapArray<typeof products>> & {
                 rating: number;
             };
             const result: Result[] = products.map((product) => {
@@ -128,7 +142,7 @@ async function register(server: FastifyInstance) {
                     ...product,
                     rating: rating ?? 0,
                 };
-            });
+            }) as Result[];
 
             res.code(200).send({
                 message: 'success retrieve data',

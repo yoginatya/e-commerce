@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsc && (concurrently \"tsc -w\" \"tsc-alias -w\")",
+    "build": "tsc && (concurrently \"tsc -w\" \"tsc-alias -w\" \"fastify start -l info  --watch ./dist/entryPlugin.js\")",
     "start": "fastify start -l info  --ignore-watch=\"node_modules .git logs storage\" --watch ./dist/entryPlugin.js",
     "prisma:dev": "prisma generate & prisma db push",
     "lint": "eslint ."

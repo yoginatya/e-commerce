@@ -58,6 +58,7 @@ async function product() {
         () => {
             return {
                 productCategory: category[getRandomInt(0, category.length - 1)],
+                available: true,
             };
         }
     );
