@@ -9,25 +9,9 @@ import {
     serializerCompiler,
     ZodTypeProvider,
 } from 'fastify-type-provider-zod';
-
-import { Response } from '@schema/http';
+import { ResponseSchema } from '@schema/http';
 import createError from '@fastify/error';
-
-const createZodMultipart = <T extends z.ZodTypeAny>(value: T) => {
-    return z.object({
-        value: value,
-        mimetype: z.enum(['text/plain']),
-    });
-};
-
-const createZodMultipartFile = () => {
-    return z.object({
-        file: z.instanceof(Readable),
-        filename: z.string(),
-        value: z.instanceof(Buffer),
-        mimetype: z.enum(['image/png', 'image/jpg']),
-    });
-};
+import { createZodMultipart, createZodMultipartFile } from '@schema/multipart';
 const body = z.object({
     description: createZodMultipart(z.string()),
     name: createZodMultipart(z.string()),
@@ -35,6 +19,9 @@ const body = z.object({
     category: createZodMultipart(z.string()),
     img: createZodMultipartFile(),
     stock: createZodMultipart(z.coerce.number()),
+});
+const paramsSchema = z.object({
+    id: z.coerce.number(),
 });
 async function register(server: FastifyInstance) {
     const nanoid = (await import('nanoid')).nanoid;
@@ -54,7 +41,7 @@ async function register(server: FastifyInstance) {
     route.setErrorHandler<
         FastifyError,
         {
-            Reply: Response<{ error: ZodError | FastifyError }>;
+            Reply: ResponseSchema<{ error: ZodError | FastifyError }>;
         }
     >((error, _, res) => {
         if (error instanceof ZodError) {
@@ -103,28 +90,30 @@ async function register(server: FastifyInstance) {
     });
     route.post<{
         Body: z.infer<typeof body>;
+        Params: z.infer<typeof paramsSchema>;
     }>(
         '/product/create',
         {
             schema: {
                 body: body,
+                params: paramsSchema,
             },
         },
         async (req, res) => {
             const img = req.body.img;
             const extension = img.mimetype.split('/')[1];
-            const writeStream = fs.createWriteStream(
-                path.join(
-                    process.cwd(),
-                    'storage/img',
-                    `${nanoid()}.${extension}`
-                )
+            const imgPath = path.join(
+                server.path.root.toString(),
+                'storage/product',
+                `${nanoid()}.${extension}`
             );
+            const writeStream = fs.createWriteStream(imgPath);
             const read = Readable.from(img.value);
             read.pipe(writeStream).addListener('error', (err) => {
                 console.log(err);
             });
             const body = req.body;
+
             await server.prisma.product.create({
                 data: {
                     productInformation: {
@@ -132,6 +121,7 @@ async function register(server: FastifyInstance) {
                             price: body.price.value,
                             description: body.description.value,
                             name: body.name.value,
+                            img: imgPath,
                             stock: body.stock.value,
                         },
                     },
@@ -139,6 +129,7 @@ async function register(server: FastifyInstance) {
                     available: true,
                 },
             });
+
             res.status(204).send();
 
             return;

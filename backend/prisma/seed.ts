@@ -2,6 +2,11 @@ import 'dotenv/config';
 import { PrismaClient, Prisma } from '@prisma/client';
 import { faker } from '@faker-js/faker';
 import bcrypt from 'bcrypt';
+import { Readable } from 'stream';
+import path from 'path';
+import appRootPath from 'app-root-path';
+import fs from 'node:fs';
+
 const prisma = new PrismaClient();
 
 type modelName = Prisma.ModelName;
@@ -22,7 +27,31 @@ function getRandomInt(min: number, max: number) {
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
+async function createImg() {
+    const nanoid = (await import('nanoid')).nanoid;
+    const fileType = await import('file-type');
+    const response = await fetch(
+        faker.image.urlLoremFlickr({ category: 'fashion' })
+    );
+    const responseBuffer = await response.arrayBuffer();
+    const buffer = Buffer.from(responseBuffer);
+    const extension =
+        (await fileType.fileTypeFromBuffer(responseBuffer))?.ext || 'jpg';
+    const readable = Readable.from(buffer);
+    const storagePath = path.join(
+        'storage/product',
+        `${nanoid()}.${extension}`
+    );
+    const writeStream = fs.createWriteStream(
+        path.join(appRootPath.toString(), storagePath)
+    );
 
+    readable.pipe(writeStream).on('error', (err) => {
+        console.log(err);
+    });
+
+    return storagePath;
+}
 async function productCategory() {
     const category: string[] = [
         'kamen',
@@ -68,19 +97,24 @@ async function product() {
 }
 
 async function productInformation() {
-    const product: getCreateMethodData<'productInformation'> = (
-        await prisma.product.findMany()
-    ).map((product) => {
-        return {
-            productId: product.id,
-            stock: getRandomInt(10, 100),
-            name: faker.commerce.productName(),
-            price: parseInt(faker.commerce.price({ min: 5000, max: 120000 })),
-            description: faker.lorem.lines(5),
-        };
-    });
+    const product = await prisma.product.findMany();
+
+    const mapper = await Promise.all(
+        product.map(async (product) => {
+            return {
+                productId: product.id,
+                stock: getRandomInt(10, 100),
+                name: faker.commerce.productName(),
+                price: parseInt(
+                    faker.commerce.price({ min: 5000, max: 120000 })
+                ),
+                description: faker.lorem.lines(5),
+                img: await createImg(),
+            };
+        })
+    );
     await prisma.productInformation.createMany({
-        data: product,
+        data: mapper,
     });
 }
 

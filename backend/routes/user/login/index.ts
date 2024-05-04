@@ -1,5 +1,5 @@
 import fp from 'fastify-plugin';
-import { Response, CreateResponseSchema } from '@schema/http';
+import { ResponseSchema, createResponseSchema } from '@schema/http';
 import z, { ZodIssue } from 'zod';
 import bcrypt from 'bcrypt';
 import type { User } from '@prisma/client';
@@ -30,7 +30,7 @@ async function register(server: FastifyInstance) {
 
     let user: User;
     route.addHook<{
-        Reply: Response<{ data: z.infer<typeof responseLoginSchema> }>;
+        Reply: ResponseSchema<{ data: z.infer<typeof responseLoginSchema> }>;
         Body: z.infer<typeof loginSchema>;
     }>('preHandler', async (req) => {
         user = (await server.prisma.user.findFirst({
@@ -49,7 +49,7 @@ async function register(server: FastifyInstance) {
         }
     });
     route.post<{
-        Reply: Response<{ data: z.infer<typeof responseLoginSchema> }>;
+        Reply: ResponseSchema<{ data: z.infer<typeof responseLoginSchema> }>;
         Body: z.infer<typeof loginSchema>;
     }>(
         '/user/login',
@@ -57,7 +57,7 @@ async function register(server: FastifyInstance) {
             schema: {
                 body: loginSchema,
                 response: {
-                    '2xx': CreateResponseSchema(responseLoginSchema),
+                    '2xx': createResponseSchema(responseLoginSchema),
                 },
             },
         },
@@ -88,7 +88,7 @@ async function register(server: FastifyInstance) {
     route.setErrorHandler<
         FastifyError,
         {
-            Reply: Response<{ error: ZodIssue | FastifyError }>;
+            Reply: ResponseSchema<{ error: ZodIssue | FastifyError }>;
         }
     >((error, _, res) => {
         let errorMessage: ZodIssue | FastifyError;

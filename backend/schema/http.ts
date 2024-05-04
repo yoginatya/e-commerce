@@ -11,17 +11,19 @@ const baseResponseSchema = () => {
             }
         ),
         message: z.string(),
-        error: z.custom<null>(
-            (val) => {
-                return val === null || val === undefined;
-            },
-            {
-                message: 'error must be undefined or null',
-            }
-        ),
+        error: z
+            .custom<null>(
+                (val) => {
+                    return val === null || val === undefined;
+                },
+                {
+                    message: 'error must be undefined or null',
+                }
+            )
+            .optional(),
     });
 };
-export const CreateResponseSchema = <T extends z.ZodTypeAny>(data: T) => {
+export const createResponseSchema = <T extends z.ZodTypeAny>(data: T) => {
     return baseResponseSchema().extend({
         data: data,
     });
@@ -46,7 +48,7 @@ export interface ResponseError<S> {
     };
 }
 
-export interface Response<
+export interface ResponseSchema<
     S extends {
         error?: unknown;
         data?: unknown;
@@ -55,6 +57,6 @@ export interface Response<
     '2xx': z.infer<ReturnType<typeof baseResponseSchema>> & {
         data: S['data'];
     };
-    204: never;
+    204: unknown;
     '4xx': ResponseError<S['error']>['4xx'];
 }

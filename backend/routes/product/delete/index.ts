@@ -1,6 +1,6 @@
 import fp from 'fastify-plugin';
 import { FastifyInstance, FastifyPluginAsync } from 'fastify';
-import { Response, ResponseError } from '@schema/http';
+import { ResponseSchema, ResponseError } from '@schema/http';
 import { FastifyError, createError } from '@fastify/error';
 import z, { ZodError } from 'zod';
 import {
@@ -59,7 +59,7 @@ async function register(server: FastifyInstance) {
         return;
     });
 
-    route.delete<{ Params: { productId: number }; Reply: Response }>(
+    route.delete<{ Params: { productId: number }; Reply: ResponseSchema }>(
         '/product/:productId',
         {
             schema: {
@@ -76,7 +76,10 @@ async function register(server: FastifyInstance) {
                     },
                 });
             } catch (e) {
-                if (e instanceof PrismaClientKnownRequestError) {
+                if (
+                    e instanceof PrismaClientKnownRequestError &&
+                    e.code === 'P2025'
+                ) {
                     throw new error.productNotFound(
                         `product with id ${req.params.productId} not found`
                     );

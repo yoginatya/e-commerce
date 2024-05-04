@@ -58,7 +58,8 @@ model ProductInformation {
     productId Int @unique
     description String @db.Text
     name String @db.VarChar(100) 
-    price Float
+    price Decimal @db.Decimal(10,2) 
+    img String @db.VarChar(255)
     stock Int
 
 }
@@ -81,7 +82,7 @@ model Review {
     productId Int
     userId Int
     text String @db.Text
-    rating Float 
+    rating Decimal @db.Decimal(10,2) 
 }
 
 model Expedition {

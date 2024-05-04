@@ -1,12 +1,12 @@
 import { FastifyInstance, FastifyPluginAsync } from 'fastify';
-import { Response } from '@schema/http';
+import { ResponseSchema } from '@schema/http';
 import fp from 'fastify-plugin';
 type responseSchema = {
     accessToken: string;
     refreshToken: string;
 };
 async function register(server: FastifyInstance) {
-    server.post<{ Reply: Response<{ data: responseSchema }> }>(
+    server.post<{ Reply: ResponseSchema<{ data: responseSchema }> }>(
         '/auth/refresh',
         async (req, res) => {
             const payload: { id: number; jti: string } =

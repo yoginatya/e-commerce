@@ -1,6 +1,6 @@
 import fp from 'fastify-plugin';
 import type { FastifyError, FastifyInstance } from 'fastify';
-import { Response, CreateResponseSchema } from '@schema/http';
+import { ResponseSchema, createResponseSchema } from '@schema/http';
 import bcrypt from 'bcrypt';
 import z, { ZodIssue } from 'zod';
 import {
@@ -35,7 +35,7 @@ async function register(server: FastifyInstance) {
     server.setValidatorCompiler(validatorCompiler);
     server.setSerializerCompiler(serializerCompiler);
     server.withTypeProvider<ZodTypeProvider>().route<{
-        Reply: Response<{
+        Reply: ResponseSchema<{
             data: z.infer<typeof createUserSchemaResponse>;
         }>;
         Body: z.infer<typeof createUserSchema>;
@@ -45,7 +45,7 @@ async function register(server: FastifyInstance) {
         schema: {
             body: createUserSchema,
             response: {
-                '2xx': CreateResponseSchema(createUserSchemaResponse),
+                '2xx': createResponseSchema(createUserSchemaResponse),
             },
         },
 
@@ -106,7 +106,7 @@ async function register(server: FastifyInstance) {
     });
     server.setErrorHandler<
         FastifyError,
-        { Reply: Response<{ error: ZodIssue | FastifyError }> }
+        { Reply: ResponseSchema<{ error: ZodIssue | FastifyError }> }
     >((error, _, res) => {
         let errorMessage: ZodIssue | FastifyError;
         try {
