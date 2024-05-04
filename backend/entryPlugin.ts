@@ -47,6 +47,7 @@ export default fp(async function (server: FastifyInstance) {
 
             return;
         }
+        console.log(error);
         res.status(422).send({
             code: 'ERROR_GENERIC',
             data: null,

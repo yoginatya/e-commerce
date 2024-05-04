@@ -16,16 +16,30 @@ type getCreateMethodData<K extends Uncapitalize<modelName>> = NonNullable<
 async function main() {
     await prisma.$connect();
     await user();
+    await createCustomUser();
     await productCategory();
     await product();
     await productInformation();
     await review();
+    await createCart();
 }
 
 function getRandomInt(min: number, max: number) {
     min = Math.ceil(min);
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+async function createCustomUser() {
+    await prisma.user.create({
+        data: {
+            email: process.env.USER_EMAIL as string,
+            name: 'YogaGanteng123',
+            password: await bcrypt.hash(
+                'YOGI123',
+                parseInt(process.env.BCRYPT_SALT as string)
+            ),
+        },
+    });
 }
 async function createImg() {
     const nanoid = (await import('nanoid')).nanoid;
@@ -163,4 +177,32 @@ async function review() {
     }
 }
 
+async function createCart() {
+    const id = (
+        await prisma.user.findFirst({
+            where: {
+                email: process.env.USER_EMAIL,
+            },
+        })
+    )?.id;
+    const products = await prisma.product.findMany({
+        include: {
+            productInformation: true,
+        },
+    });
+    const mapper: getCreateMethodData<'cart'> = Array.from(
+        { length: getRandomInt(5, 10) },
+        () => {
+            const product = products[getRandomInt(0, products.length - 1)];
+            return {
+                userId: id as number,
+                productId: product.id,
+                count: getRandomInt(0, product.productInformation?.stock || 0),
+            };
+        }
+    );
+    await prisma.cart.createMany({
+        data: mapper,
+    });
+}
 main();
