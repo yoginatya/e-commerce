@@ -20,7 +20,12 @@ const statuses = ref([
   { label: 'LOWSTOCK', value: 'lowstock' },
   { label: 'OUTOFSTOCK', value: 'outofstock' }
 ]);
+const card = ref();
+const cardWidth = ref();
 
+onMounted(() => {
+  cardWidth.value = card.value.clientWidth;
+});
 const productService = new ProductService();
 
 const getBadgeSeverity = (inventoryStatus) => {
@@ -152,7 +157,7 @@ const initFilters = () => {
 <template>
   <div class="grid">
     <div class="col-12">
-      <div class="card">
+      <div class="card" ref="card">
         <Toolbar class="mb-4">
           <template v-slot:start>
             <div class="my-2">
@@ -191,10 +196,8 @@ const initFilters = () => {
           :value="products"
           v-model:selection="selectedProducts"
           dataKey="id"
-          :paginator="true"
           :rows="10"
           :filters="filters"
-          paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
           :rowsPerPageOptions="[5, 10, 25]"
           currentPageReportTemplate="Showing {first} to {last} of {totalRecords} products"
         >
@@ -313,6 +316,28 @@ const initFilters = () => {
               />
             </template>
           </Column>
+
+          <!-- <ColumnGroup type="footer">
+            <Row>
+              <Column :colspan="5" footerStyle="text-align:right">
+                <div class="spinner-border text-primary" role="status">
+                  <span class="sr-only">Loading...</span>
+                </div>
+              </Column>
+            </Row>
+          </ColumnGroup> -->
+          <ColumnGroup type="footer">
+            <Row>
+              <Column
+                :colspan="10"
+                footerStyle="text-align:center"
+                :style="{
+                  width: `${cardWidth}px`
+                }"
+                :footer="'test'"
+              />
+            </Row>
+          </ColumnGroup>
         </DataTable>
         <div>shjdbsdjk</div>
 
@@ -351,9 +376,16 @@ const initFilters = () => {
               cols="20"
             />
           </div>
+          <div class="field">
+            <label for="inventoryStatus" class="mb-3">Image</label>
+            <form action="/action_page.php">
+              <input type="file" id="myFile" name="filename" />
+              <input type="submit" />
+            </form>
+          </div>
 
           <div class="field">
-            <label for="inventoryStatus" class="mb-3">Inventory Status</label>
+            <label class="mb-3">Category</label>
             <Dropdown
               id="inventoryStatus"
               v-model="product.inventoryStatus"
@@ -377,48 +409,6 @@ const initFilters = () => {
                 </span>
               </template>
             </Dropdown>
-          </div>
-
-          <div class="field">
-            <label class="mb-3">Category</label>
-            <div class="formgrid grid">
-              <div class="field-radiobutton col-6">
-                <RadioButton
-                  id="category1"
-                  name="category"
-                  value="Accessories"
-                  v-model="product.category"
-                />
-                <label for="category1">Accessories</label>
-              </div>
-              <div class="field-radiobutton col-6">
-                <RadioButton
-                  id="category2"
-                  name="category"
-                  value="Clothing"
-                  v-model="product.category"
-                />
-                <label for="category2">Clothing</label>
-              </div>
-              <div class="field-radiobutton col-6">
-                <RadioButton
-                  id="category3"
-                  name="category"
-                  value="Electronics"
-                  v-model="product.category"
-                />
-                <label for="category3">Electronics</label>
-              </div>
-              <div class="field-radiobutton col-6">
-                <RadioButton
-                  id="category4"
-                  name="category"
-                  value="Fitness"
-                  v-model="product.category"
-                />
-                <label for="category4">Fitness</label>
-              </div>
-            </div>
           </div>
 
           <div class="formgrid grid">

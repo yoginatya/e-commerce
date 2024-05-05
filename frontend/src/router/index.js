@@ -40,7 +40,6 @@ const router = createRouter({
       component: () => import('@/views/pages/NotFound.vue')
     },
     {
-      path: '/',
       component: AppLayout,
       children: [
         {
