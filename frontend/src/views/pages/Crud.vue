@@ -380,7 +380,6 @@ const initFilters = () => {
             <label for="inventoryStatus" class="mb-3">Image</label>
             <form action="/action_page.php">
               <input type="file" id="myFile" name="filename" />
-              <input type="submit" />
             </form>
           </div>
 
